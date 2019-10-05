@@ -34,17 +34,16 @@ void resheto(int bk, int kr, std::vector<int> answer, std::set<std::vector<int>>
 			continue;
 		}
 
-		
-
 		count = 0;
 		for (size_t i = 0; i < V.size(); i++)
 		{
 			for (size_t j = 0; j < V.size(); j++) 
 			{
+				if (i == j)continue;
 				if (answer[i] == V[j]) count++;
 			}
 		}
-		if (count - bk != kr) 
+		if (count < kr) 
 		{
 			deletes.push_back(V);
 			continue;
@@ -67,10 +66,20 @@ int main()
 		for (size_t j = 0; j < 10; j++)
 		{
 			if (i == j)continue;
-			std::vector<int> V;
-			V.push_back(i);
-			V.push_back(j);
-			Set.insert(V);
+			for (size_t k = 0; k < 10; k++)
+			{
+				if (k == i || k == j) continue;
+				for (size_t l = 0; l < 10; l++)
+				{
+					if (l == i || l == j || l == k) continue;
+					std::vector<int> V;
+					V.push_back(i);
+					V.push_back(j);
+					V.push_back(k);
+					V.push_back(l);
+					Set.insert(V);
+				}
+			}
 		}
 	}
 
@@ -80,7 +89,7 @@ int main()
 	while (true)
 	{
 		answer = request(Set);
-		std::cout << answer[0] << answer[1] << std::endl;
+		std::cout << answer[0] << answer[1] << answer[2] << answer[3] << std::endl;
 		std::cin >> bk >> kr;
 		if (bk == 4 && kr == 0) break;
 		resheto(bk, kr, answer, Set);
